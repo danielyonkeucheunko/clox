@@ -1,0 +1,52 @@
+# Compiled object files
+*.o
+*.obj
+
+# Executable files
+*.exe
+*.out
+*.app
+
+# CLion and JetBrains-specific files
+.idea/
+*.iml
+
+# CMake files
+CMakeLists.txt.user
+CMakeCache.txt
+cmake-build-*/
+
+# Build directories
+build/
+bin/
+lib/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Backup files
+*.bak
+*.old
+*.orig
+
+# MacOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# Coverage files
+*.gcda
+*.gcno
+*.gcov
+
+# Debugging files
+*.dSYM/
+*.core
+
+# Other generated files
+tags
