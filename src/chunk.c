@@ -3,6 +3,7 @@
 #include "chunk.h"
 #include "memory.h"
 
+//Initializes a chunk.
 void initChunk(Chunk* chunk) {
     chunk->count = 0;
     chunk->capacity = 0;
@@ -11,6 +12,7 @@ void initChunk(Chunk* chunk) {
     initValueArray(&chunk->constants);
 }
 
+//Frees a chunk.
 void freeChunk(Chunk* chunk) {
     FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
     FREE_ARRAY(int, chunk->lines, chunk->capacity);
@@ -18,6 +20,8 @@ void freeChunk(Chunk* chunk) {
     initChunk(chunk);
 }
 
+//Writes a byte of code to a chunk.
+//Grows the code array if necessary.
 void writeChunk(Chunk* chunk, uint8_t byte, int line) {
     if (chunk->capacity < chunk->count + 1) {
         int oldCapacity = chunk->capacity;
@@ -31,6 +35,7 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line) {
     chunk->count++;
 }
 
+//Adds a constant to a chunk's value array. 
 int addConstant(Chunk* chunk, Value value) {
     writeValueArray(&chunk->constants, value);
     return chunk->constants.count - 1;

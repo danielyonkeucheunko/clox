@@ -50,3 +50,5 @@ Thumbs.db
 
 # Other generated files
 tags
+
+.vscode/

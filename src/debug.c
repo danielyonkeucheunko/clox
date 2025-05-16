@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "value.h"
 
+//Parses and print a chunk of code.
 void disassembleChunk(Chunk* chunk, const char* name) {
     printf("== %s ==\n", name);
 
@@ -11,6 +12,7 @@ void disassembleChunk(Chunk* chunk, const char* name) {
     }
 }
 
+//Prints a constant instruction.
 static int constantInstruction(const char* name, Chunk* chunk, int offset) {
     uint8_t constant = chunk->code[offset + 1];
     printf("%-16s %4d '", name, constant);
@@ -19,11 +21,14 @@ static int constantInstruction(const char* name, Chunk* chunk, int offset) {
     return offset + 2;
 }
 
+//Prints a simple instruction
+//used for OP_ADD, OP_SUBTRACT etc.
 static int simpleInstruction(const char* name, int offset) {
     printf("%s\n", name);
     return offset + 1;
 }
 
+//Prints an instruction.
 int disassembleInstruction(Chunk* chunk, int offset) {
     printf("%04d ", offset);
     if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1]) {

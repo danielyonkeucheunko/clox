@@ -6,23 +6,27 @@
 #include "vm.h"
 
 VM vm;
-
+//Resets the stack.
 static void resetStack() {
     vm.stackTop = vm.stack;
 }
 
+//Initializes the virtual machine.
 void initVM() {
     resetStack();
 }
 
+//Frees memory allocated to the virtual machine.
 void freeVM() {
 }
 
+//Pushes a value onto the stack.
 void push(Value value) {
     *vm.stackTop = value;
     vm.stackTop++;
 }
 
+//Pops a value from the stack.
 Value pop() {
     vm.stackTop--;
     return *vm.stackTop;

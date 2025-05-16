@@ -4,6 +4,7 @@
 #include "common.h"
 #include "value.h"
 
+//Operation codes for different types of expressions.
 typedef enum {
     OP_CONSTANT,
     OP_ADD,

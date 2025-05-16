@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "vm.h"
 
+//Run the compiler from a REPL (Read-Eval-Print Loop)
 static void repl() {
     char line[1024];
     for (;;) {
@@ -21,6 +22,7 @@ static void repl() {
     }
 }
 
+//Reads a file from a specified path location.
 static char* readFile(const char* path) {
     FILE* file = fopen(path, "rb");
     if (file == NULL) {
@@ -51,6 +53,7 @@ static char* readFile(const char* path) {
     return buffer;
 }
 
+//Run the compiler from a file.
 static void runFile(const char* path) {
     char* source = readFile(path);
     InterpretResult result = interpret(source);

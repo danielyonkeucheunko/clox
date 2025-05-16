@@ -12,39 +12,48 @@ typedef struct {
 
 Scanner scanner;
 
+// Initializes the scanner.
 void initScanner(const char* source) {
     scanner.start = source;
     scanner.current = source;
     scanner.line = 1;
 }
 
+//Checks if the character is alphabetic, including "_".
 static bool isAlpha(char c) {
     return (c >= 'a' && c <= 'z') ||
            (c >= 'A' && c <= 'Z') ||
             c == '_';
 }
 
+//Checks if the character is numeric.
 static bool isDigit(char c) {
     return c >= '0' && c <= '9';
 }
 
+//Checks if the scanner reached the end.
 static bool isAtEnd() {
     return *scanner.current == '\0';
 }
 
+//Advances scanner pointer by 1.
 static char advance() {
     scanner.current++;
     return scanner.current[-1];
 }
 
+//Peeks at the current character.
 static char peek() {
     return *scanner.current;
 }
+
+//Peeks one character ahead.
 static char peekNext() {
     if (isAtEnd()) return '\0';
     return scanner.current[1];
 }
 
+//Checks if the current character matches the expected character.
 static bool match(char expected) {
     if (isAtEnd()) return false;
     if (*scanner.current != expected) return false;
@@ -52,6 +61,7 @@ static bool match(char expected) {
     return true;
 }
 
+//Initializes a token.
 static Token makeToken(TokenType type) {
     Token token;
     token.type = type;
@@ -61,6 +71,7 @@ static Token makeToken(TokenType type) {
     return token;
 }
 
+//Initializes an error token.
 static Token errorToken(const char* message) {
     Token token;
     token.type = TOKEN_ERROR;
@@ -70,6 +81,7 @@ static Token errorToken(const char* message) {
     return token;
 }
 
+//Skips whitespace and comments
 static void skipWhitespace() {
     for (;;) {
         char c = peek();
@@ -97,6 +109,7 @@ static void skipWhitespace() {
     }
 }
 
+//Checks if the keyword matches rest.
 static TokenType checkKeyword(int start, int length, const char* rest, TokenType type) {
     if (scanner.current - scanner.start == start + length && memcmp(scanner.start + start, rest, length) == 0) {
         return type;
@@ -105,6 +118,7 @@ static TokenType checkKeyword(int start, int length, const char* rest, TokenType
     return TOKEN_IDENTIFIER;
 }
 
+//Matches a string with its corresponding keyword if any.
 static TokenType identifierType() {
     switch (scanner.start[0]) {
         case 'a': return checkKeyword(1, 2, "nd", TOKEN_AND);
@@ -140,11 +154,13 @@ static TokenType identifierType() {
     return TOKEN_IDENTIFIER;
 }
 
+//Creates a token based on the identifier.
 static Token identifier() {
     while (isAlpha(peek()) || isDigit(peek())) advance();
     return makeToken(identifierType());
 }
 
+//Parses a number and makes it into a token.
 static Token number() {
     while (isDigit(peek())) advance();
 
@@ -159,6 +175,7 @@ static Token number() {
     return makeToken(TOKEN_NUMBER);
 }
 
+//Parses a string and makes it into a token.
 static Token string() {
     while (peek() != '"' && !isAtEnd()) {
         if (peek() == '\n') scanner.line++;
@@ -172,6 +189,7 @@ static Token string() {
     return makeToken(TOKEN_STRING);
 }
 
+//Scans for a token.
 Token scanToken() {
     skipWhitespace();
     scanner.start = scanner.current;
